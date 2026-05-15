@@ -7,7 +7,6 @@ project(RealCarADASMonitor)
 # =========================
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(OpenCV_DIR "C:/CommonApps/opencv/build")
 
 # =========================
 # OpenCV
