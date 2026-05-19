@@ -1,45 +1,71 @@
 #include "obd_parser.h"
+#include "onnx_classifier.h"
 
 #include <iostream>
-#include <array>
+#include <iomanip>
 
 int main() {
-    OBDParser parser("../data/dataset_clean_10000.csv");
+    try {
+        OBDParser parser("../data/dataset_clean_10000.csv");
 
-    const int loaded = parser.load();
-    if (loaded < 0) {
-        std::cerr << "Failed to load CSV\n";
+        int loaded = parser.load();
+
+        if (loaded <= 0) {
+            std::cerr << "Failed to load CSV\n";
+            return 1;
+        }
+
+        ONNXClassifier classifier(
+            L"../models/driver_classifier.onnx",
+            "../models/normalization_params.json"
+        );
+
+        int correct = 0;
+        int total = std::min(20, static_cast<int>(parser.size()));
+
+        std::cout
+            << "TRUE\tPRED\tCONFIDENCE\n";
+
+        for (int i = 0; i < total; ++i) {
+            const auto& r = parser.getRecord(i);
+
+            std::array<float, 6> features = {
+                static_cast<float>(r.speed_kmh),
+                static_cast<float>(r.engine_rpm),
+                static_cast<float>(r.throttle_pos),
+                static_cast<float>(r.coolant_temp),
+                static_cast<float>(r.fuel_level),
+                static_cast<float>(r.intake_air_temp)
+            };
+
+            auto result = classifier.classify(features);
+
+            std::cout
+                << OBDParser::intToLabel(r.label)
+                << "\t"
+                << OBDParser::intToLabel(result.label)
+                << "\t"
+                << std::fixed
+                << std::setprecision(3)
+                << result.confidence
+                << "\n";
+
+            if (r.label == result.label) {
+                ++correct;
+            }
+        }
+
+        float accuracy =
+            static_cast<float>(correct) / total;
+
+        std::cout << "\nAccuracy: "
+                  << accuracy * 100.0f
+                  << "%\n";
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << '\n';
         return 1;
     }
-
-    std::cout << "Loaded records: " << loaded << "\n\n";
-
-    const int showCount = std::min(5, loaded);
-    for (int i = 0; i < showCount; ++i) {
-        const auto& r = parser.getRecord(i);
-        std::cout << i << ": "
-                  << "speed=" << r.speed_kmh
-                  << ", rpm=" << r.engine_rpm
-                  << ", throttle=" << r.throttle_pos
-                  << ", coolant=" << r.coolant_temp
-                  << ", fuel=" << r.fuel_level
-                  << ", intake=" << r.intake_air_temp
-                  << ", label=" << OBDParser::intToLabel(r.label)
-                  << "\n";
-    }
-
-    std::array<int, 3> counts{0, 0, 0};
-    for (std::size_t i = 0; i < parser.size(); ++i) {
-        const auto& r = parser.getRecord(static_cast<int>(i));
-        if (r.label >= 0 && r.label < 3) {
-            counts[r.label]++;
-        }
-    }
-
-    std::cout << "\nClass statistics:\n";
-    std::cout << "SLOW: " << counts[0] << "\n";
-    std::cout << "NORMAL: " << counts[1] << "\n";
-    std::cout << "AGGRESSIVE: " << counts[2] << "\n";
 
     return 0;
 }
