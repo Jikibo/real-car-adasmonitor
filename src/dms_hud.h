@@ -1,0 +1,15 @@
+#pragma once
+
+#include "dms_monitor.h"
+
+#include <opencv2/opencv.hpp>
+
+class DMSHUD {
+public:
+    cv::Mat draw(const cv::Mat& camera_frame, const DriverState& state) const;
+
+private:
+    void drawCornerRect(cv::Mat& img, const cv::Rect& rect, const cv::Scalar& color, int thickness = 2) const;
+    void drawStatusDot(cv::Mat& img, const cv::Point& center, const cv::Scalar& color, const std::string& label) const;
+    void drawCenteredBanner(cv::Mat& img, const std::string& text, const cv::Scalar& color) const;
+};

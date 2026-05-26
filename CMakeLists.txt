@@ -18,21 +18,23 @@ find_package(OpenCV REQUIRED)
 # =========================
 set(ONNXRUNTIME_DIR "C:/CommonApps/onnxruntime")
 
-# подключает .h файлы
-include_directories(
-    ${OpenCV_INCLUDE_DIRS}
-    ${ONNXRUNTIME_DIR}/include
-    src
+# =========================
+# Google Test
+# =========================
+include(FetchContent)
+
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/heads/main.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
-# подключает .lib
-link_directories(
-    ${ONNXRUNTIME_DIR}/lib
-)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
 
 # =========================
 # Main executable
-# Создаёт .exe
 # =========================
 add_executable(RealCarMonitor
     src/main.cpp
@@ -43,27 +45,20 @@ add_executable(RealCarMonitor
     src/dms_hud.cpp
 )
 
-# Подключает OpenCV и ONNX Runtime
+target_include_directories(RealCarMonitor PRIVATE
+    ${OpenCV_INCLUDE_DIRS}
+    ${ONNXRUNTIME_DIR}/include
+    src
+)
+
+target_link_directories(RealCarMonitor PRIVATE
+    ${ONNXRUNTIME_DIR}/lib
+)
+
 target_link_libraries(RealCarMonitor
     ${OpenCV_LIBS}
     onnxruntime
 )
-
-# =========================
-# Google Test
-# Позволяет скачать GoogleTest автоматически.
-# =========================
-include(FetchContent)
-
-FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/refs/heads/main.zip
-	DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-)
-
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
 
 # =========================
 # Tests
@@ -71,6 +66,10 @@ enable_testing()
 add_executable(RunTests
     tests/test_obd_parser.cpp
     src/obd_parser.cpp
+)
+
+target_include_directories(RunTests PRIVATE
+    src
 )
 
 target_link_libraries(RunTests
