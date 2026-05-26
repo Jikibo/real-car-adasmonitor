@@ -1,39 +1,26 @@
-#pragma once
+#ifndef ONNX_CLASSIFIER_H
+#define ONNX_CLASSIFIER_H
 
-#include <onnxruntime_cxx_api.h>
-
+#include <string>
+#include <vector>
+#include "obd_parser.h"
 
 struct ClassificationResult {
-    int label;
+    int label;         // 0=SLOW, 1=NORMAL, 2=AGGRESSIVE
     float confidence;
-    std::array<float, 3> scores;
+    std::vector<float> scores;
 };
 
 class ONNXClassifier {
 public:
-    ONNXClassifier(
-        const std::wstring& modelPath,
-        const std::string& normalizationJsonPath
-    );
-
-    ClassificationResult classify(const std::array<float, 6>& features);
+    explicit ONNXClassifier(const std::string& modelPath, const std::string& paramsPath);
+    ClassificationResult classify(const OBDRecord& record);
 
 private:
-    void loadNormalizationParams(const std::string& path);
-
-    static std::vector<float> extractArray(
-        const std::string& content,
-        const std::string& key
-    );
-
-    static std::array<float, 3> softmax(const std::vector<float>& logits);
-
-private:
-    Ort::Env env_;
-    Ort::Session session_;
-
     std::vector<float> mean_;
     std::vector<float> std_;
 
-    bool modelLoaded_{false};
+    void readNormalizationParams(const std::string& path);
 };
+
+#endif

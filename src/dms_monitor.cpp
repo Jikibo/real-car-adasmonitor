@@ -48,7 +48,7 @@ DriverState DMSMonitor::analyze(const cv::Mat& frame) {
     }
 
     state.eye_openness = estimateEyeOpenness(frame, state.face_rect);
-    state.eyes_open = state.eye_openness >= 0.35f;
+    state.eyes_open = state.eye_openness >= 0.2f;
 
     state.head_turn_deg = estimateHeadTurn(frame, state.face_rect);
     state.looking_forward = std::abs(state.head_turn_deg) <= looking_forward_threshold_deg_;
@@ -182,5 +182,5 @@ bool DMSMonitor::isDrowsy() const {
         }
     }
 
-    return closed_count >= 10;
+    return closed_count >= 30;
 }

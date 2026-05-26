@@ -3,7 +3,7 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 INPUT_FILE = PROJECT_ROOT / "data" / "dataset.csv"
-OUTPUT_FILE = PROJECT_ROOT / "data" / "dataset_clean_10000.csv"
+OUTPUT_FILE = PROJECT_ROOT / "data" / "obd_data.csv"
 
 COLUMN_MAP = {
     "SPEED": "speed_kmh",
@@ -36,7 +36,7 @@ def main():
     df = df.dropna().reset_index(drop=True)
 
     if len(df) > 10000:
-        df = df.sample(10000, random_state=42).reset_index(drop=True)
+        df = df.head(10000).reset_index(drop=True)
 
     df["label"] = df.apply(classify, axis=1)
 

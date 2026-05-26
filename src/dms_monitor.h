@@ -41,5 +41,5 @@ private:
     float face_conf_threshold_ = 0.5f;
     float looking_forward_threshold_deg_ = 15.0f;
 
-    static constexpr int kHistorySize = 15;
+    static constexpr int kHistorySize = 45;
 };

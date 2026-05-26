@@ -22,6 +22,7 @@ real-car-adas-monitor/
 │
 ├── tests/
 │ └── test_obd_parser.cpp ← unit-тесты
+│ └── test_dms_monitor.cpp
 │
 ├── models/ ← ONNX модели (не загружаются в Git)
 ├── data/ ← CSV файлы (не загружаются в Git)

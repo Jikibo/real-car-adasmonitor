@@ -32,7 +32,37 @@ cv::Mat DMSHUD::draw(const cv::Mat& camera_frame, const DriverState& state) cons
         2
     );
 
-    const int y0 = 92;
+    std::string driverStatus = "NORMAL";
+    cv::Scalar statusColor(0, 255, 0);
+
+    if (state.alert_drowsy) {
+        driverStatus = "FATIGUE DETECTED";
+        statusColor = cv::Scalar(0, 165, 255);
+    } else if (state.alert_distracted) {
+        driverStatus = "DISTRACTED";
+        statusColor = cv::Scalar(0, 0, 255);
+    }
+
+    cv::rectangle(
+        left_roi,
+        cv::Rect(20, 58, left_roi.cols - 40, 46),
+        statusColor,
+        cv::FILLED,
+        cv::LINE_AA
+    );
+
+    cv::putText(
+        left_roi,
+        driverStatus,
+        cv::Point(36, 90),
+        cv::FONT_HERSHEY_SIMPLEX,
+        0.95,
+        cv::Scalar(255, 255, 255),
+        2,
+        cv::LINE_AA
+    );
+
+    const int y0 = 145;
     const int dy = 58;
 
     drawStatusDot(
