@@ -27,7 +27,7 @@
 
 
 ## Структура проекта
-
+```
 real-car-adas-monitor/
 ├── CMakeLists.txt
 ├── README.md
@@ -45,6 +45,7 @@ real-car-adas-monitor/
 ├── data/
 ├── output/
 └── docs/
+```
 
 
 
