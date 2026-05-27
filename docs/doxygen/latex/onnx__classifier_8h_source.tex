@@ -1,0 +1,33 @@
+\doxysection{onnx\+\_\+classifier.\+h}
+\hypertarget{onnx__classifier_8h_source}{}\label{onnx__classifier_8h_source}\index{src/onnx\_classifier.h@{src/onnx\_classifier.h}}
+\doxymbox{\hyperlink{onnx__classifier_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ONNX\_CLASSIFIER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ONNX\_CLASSIFIER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{obd__parser_8h}{obd\_parser.h}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_classification_result}{ClassificationResult}}\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{struct_classification_result_aba26cd2c4467902c5131ff762faf3923}{label}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 0=SLOW,\ 1=NORMAL,\ 2=AGGRESSIVE}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{struct_classification_result_a7d662ffa46f0bd546eb4c601b2a57354}{confidence}};}
+\DoxyCodeLine{00011\ \ \ \ \ std::vector<float>\ \doxymbox{\hyperlink{struct_classification_result_a8ab6fee475e1dc8b2929f23b1a7658da}{scores}};}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_o_n_n_x_classifier_a4a75be0f5b6f6e5cbf815112ad71ebdc}{ONNXClassifier}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{explicit}\ \doxymbox{\hyperlink{class_o_n_n_x_classifier_a4a75be0f5b6f6e5cbf815112ad71ebdc}{ONNXClassifier}}(\textcolor{keyword}{const}\ std::string\&\ modelPath,\ \textcolor{keyword}{const}\ std::string\&\ paramsPath);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00032\ \ \ \ \ \doxymbox{\hyperlink{struct_classification_result}{ClassificationResult}}\ \doxymbox{\hyperlink{class_o_n_n_x_classifier_a4c1f8ea175dc3aa101f3865dfad089e4}{classify}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}}\&\ record);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00035\ \ \ \ \ std::vector<float>\ \doxymbox{\hyperlink{class_o_n_n_x_classifier_aec4324cd2b7998ddc0c648be59386043}{mean\_}};}
+\DoxyCodeLine{00036\ \ \ \ \ std::vector<float>\ \doxymbox{\hyperlink{class_o_n_n_x_classifier_adfd5beb566b2daf68143bd0ba37f9198}{std\_}};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_o_n_n_x_classifier_a74cd888c4d401268b86230e4e7cafeeb}{readNormalizationParams}}(\textcolor{keyword}{const}\ std::string\&\ path);}
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

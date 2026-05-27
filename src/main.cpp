@@ -1,20 +1,21 @@
 #include <atomic>
 #include <chrono>
+#include <ctime>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <mutex>
 #include <thread>
-#include <filesystem>
 
 #include <opencv2/opencv.hpp>
 
+#include "dashboard.h"
+#include "dms_hud.h"
+#include "dms_monitor.h"
 #include "obd_parser.h"
 #include "onnx_classifier.h"
-#include "dashboard.h"
-#include "dms_monitor.h"
 #include "shared_state.h"
-#include "dms_hud.h"
 
 namespace fs = std::filesystem;
 
@@ -40,7 +41,8 @@ void obd_thread_function(OBDParser& parser, ONNXClassifier& classifier, SharedSt
 
             index = (index + 1) % total;
             std::this_thread::sleep_for(std::chrono::seconds(1));
-        } catch (const std::exception&) {
+        } catch (const std::exception& e) {
+            std::cerr << "OBD thread error: " << e.what() << '\n';
             state.running.store(false);
             break;
         }
@@ -49,11 +51,11 @@ void obd_thread_function(OBDParser& parser, ONNXClassifier& classifier, SharedSt
 
 int main() {
     try {
-        std::filesystem::create_directories("../output");
+        fs::create_directories("../output");
 
         OBDParser parser("../data/obd_data.csv");
         if (parser.load() < 0) {
-            std::cerr << "Failed to load OBD data\n";
+            std::cerr << "Failed to load OBD CSV\n";
             return -1;
         }
 
@@ -82,36 +84,51 @@ int main() {
             return -1;
         }
 
-        const std::string windowName = "RealCarMonitor";
-        cv::namedWindow(windowName, cv::WINDOW_NORMAL);
+        const int width = 1280;
+        const int height = 480;
+        const std::string window_name = "RealCarMonitor";
+
+        cv::namedWindow(window_name, cv::WINDOW_NORMAL);
 
         cv::VideoWriter writer(
             "../output/result_situation2.mp4",
-            cv::VideoWriter::fourcc('a', 'v', 'c', '1'),
+            cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
             30.0,
-            cv::Size(1280, 480)
+            cv::Size(width, height)
         );
 
-        std::ofstream logFile("../output/dms_alerts.log", std::ios::app);
-        bool paused = false;
+        if (!writer.isOpened()) {
+            std::cerr << "Warning: video writer not opened\n";
+        }
 
-        auto logAlert = [&](const DriverState& ds, const ClassificationResult& cr) {
-            if (!logFile.is_open()) return;
-            if (!(ds.alert_drowsy || ds.alert_distracted || cr.label == 2)) return;
+        std::ofstream log_file("../output/dms_alerts.log", std::ios::app);
 
-            auto now = std::chrono::system_clock::now();
-            std::time_t t = std::chrono::system_clock::to_time_t(now);
+        auto log_alert = [&](const DriverState& ds, const ClassificationResult& cr) {
+            if (!(ds.alert_drowsy || ds.alert_distracted || cr.label == 2)) {
+                return;
+            }
 
-            logFile << std::put_time(std::localtime(&t), "%F %T")
-                    << " | drowsy=" << ds.alert_drowsy
-                    << " distracted=" << ds.alert_distracted
-                    << " aggressive=" << (cr.label == 2)
-                    << '\n';
+            state.alert_count++;
+
+            if (log_file.is_open()) {
+                const auto now = std::chrono::system_clock::now();
+                const std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+
+                log_file << std::put_time(std::localtime(&now_c), "%F %T")
+                         << " | drowsy=" << ds.alert_drowsy
+                         << " distracted=" << ds.alert_distracted
+                         << " aggressive=" << (cr.label == 2)
+                         << '\n';
+                log_file.flush();
+            }
         };
+
+        auto start_time = std::chrono::steady_clock::now();
+        bool paused = false;
 
         while (state.running.load()) {
             try {
-                if (cv::getWindowProperty(windowName, cv::WND_PROP_VISIBLE) < 1) {
+                if (cv::getWindowProperty(window_name, cv::WND_PROP_VISIBLE) < 1) {
                     state.running.store(false);
                     break;
                 }
@@ -123,6 +140,7 @@ int main() {
             cv::Mat frame;
             cap >> frame;
             if (frame.empty()) {
+                std::cerr << "Empty camera frame\n";
                 break;
             }
 
@@ -136,9 +154,9 @@ int main() {
                 result = state.classification_result;
             }
 
-            cv::Mat canvas(480, 1280, CV_8UC3, cv::Scalar(0, 0, 0));
-            cv::Mat left = canvas(cv::Rect(0, 0, 640, 480));
-            cv::Mat right = canvas(cv::Rect(640, 0, 640, 480));
+            cv::Mat canvas(height, width, CV_8UC3, cv::Scalar(0, 0, 0));
+            cv::Mat left = canvas(cv::Rect(0, 0, width / 2, height));
+            cv::Mat right = canvas(cv::Rect(width / 2, 0, width / 2, height));
 
             dashboard.draw(
                 left,
@@ -150,26 +168,26 @@ int main() {
                 OBDParser::intToLabel(result.label)
             );
 
-            cv::resize(frame, right, right.size());
+            cv::Mat hud_frame = dms_hud.draw(frame, driver_state);
+            if (!hud_frame.empty()) {
+                if (hud_frame.size() == right.size()) {
+                    hud_frame.copyTo(right);
+                } else {
+                    cv::resize(hud_frame, right, right.size(), 0.0, 0.0, cv::INTER_LINEAR);
+                }
+            }
 
-            cv::putText(right, driver_state.face_detected ? "FACE: DETECTED" : "FACE: NOT DETECTED",
-                        {20, 30}, cv::FONT_HERSHEY_SIMPLEX, 0.7,
-                        driver_state.face_detected ? cv::Scalar(0,255,0) : cv::Scalar(0,0,255), 2, cv::LINE_AA);
+            log_alert(driver_state, result);
 
-            cv::putText(right, driver_state.eyes_open ? "EYES: OPEN" : "EYES: CLOSED",
-                        {20, 65}, cv::FONT_HERSHEY_SIMPLEX, 0.7,
-                        driver_state.eyes_open ? cv::Scalar(0,255,0) : cv::Scalar(0,0,255), 2, cv::LINE_AA);
+            if (writer.isOpened()) {
+                writer.write(canvas);
+            }
 
-            cv::putText(right, driver_state.looking_forward ? "HEAD: FORWARD" : "HEAD: TURNED",
-                        {20, 100}, cv::FONT_HERSHEY_SIMPLEX, 0.7,
-                        driver_state.looking_forward ? cv::Scalar(0,255,0) : cv::Scalar(0,0,255), 2, cv::LINE_AA);
+            cv::imshow(window_name, canvas);
 
-            logAlert(driver_state, result);
-            writer.write(canvas);
+            const int delay = paused ? 0 : 1;
+            int key = cv::waitKey(delay);
 
-            cv::imshow(windowName, canvas);
-
-            int key = paused ? cv::waitKey(0) : cv::waitKey(1);
             if (key == 'q' || key == 'Q' || key == 27) {
                 state.running.store(false);
                 break;
@@ -182,13 +200,17 @@ int main() {
             }
         }
 
-        cv::destroyAllWindows();
         state.running.store(false);
         obd_thread.join();
 
-        std::cout << "Время работы системы: завершено\n";
-        std::cout << "Обработано записей OBD: " << parser.size() << '\n';
-        std::cout << "Количество алертов всего: " << state.alert_count << '\n';
+        cv::destroyAllWindows();
+
+        const auto end_time = std::chrono::steady_clock::now();
+        const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
+
+        std::cout << "System runtime: " << seconds << " sec\n";
+        std::cout << "Processed OBD records: " << parser.size() << '\n';
+        std::cout << "Total alerts: " << state.alert_count << '\n';
 
         return 0;
     } catch (const std::exception& e) {

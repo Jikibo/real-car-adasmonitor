@@ -1,165 +1,120 @@
 #include "dms_hud.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <string>
+
+namespace {
+cv::Rect clampRect(const cv::Rect& r, const cv::Size& size) {
+    return r & cv::Rect(0, 0, size.width, size.height);
+}
+
+cv::Rect scaleRectToTarget(const cv::Rect& src, const cv::Size& srcSize, const cv::Size& dstSize) {
+    if (src.area() <= 0 || srcSize.width <= 0 || srcSize.height <= 0 ||
+        dstSize.width <= 0 || dstSize.height <= 0) {
+        return {};
+    }
+
+    const float sx = static_cast<float>(dstSize.width) / static_cast<float>(srcSize.width);
+    const float sy = static_cast<float>(dstSize.height) / static_cast<float>(srcSize.height);
+
+    cv::Rect scaled(
+        static_cast<int>(std::lround(src.x * sx)),
+        static_cast<int>(std::lround(src.y * sy)),
+        static_cast<int>(std::lround(src.width * sx)),
+        static_cast<int>(std::lround(src.height * sy))
+    );
+
+    return clampRect(scaled, dstSize);
+}
+} // namespace
 
 cv::Mat DMSHUD::draw(const cv::Mat& camera_frame, const DriverState& state) const {
     if (camera_frame.empty()) {
         return cv::Mat();
     }
 
-    cv::Mat canvas(camera_frame.rows, camera_frame.cols * 2, CV_8UC3, cv::Scalar(18, 18, 18));
-
-    cv::Rect left_panel(0, 0, camera_frame.cols, camera_frame.rows);
-    cv::Rect right_panel(camera_frame.cols, 0, camera_frame.cols, camera_frame.rows);
-
-    cv::Mat left_roi = canvas(left_panel);
-    cv::Mat right_roi = canvas(right_panel);
-
-    if (right_roi.size() == camera_frame.size()) {
-        camera_frame.copyTo(right_roi);
-    } else {
-        cv::resize(camera_frame, right_roi, right_roi.size());
-    }
+    cv::Mat canvas = camera_frame.clone();
 
     cv::putText(
-        left_roi,
+        canvas,
         "DMS STATUS",
-        cv::Point(24, 42),
+        cv::Point(20, 35),
         cv::FONT_HERSHEY_SIMPLEX,
-        1.0,
-        cv::Scalar(240, 240, 240),
+        0.9,
+        cv::Scalar(255, 255, 255),
         2
     );
 
-    std::string driverStatus = "NORMAL";
-    cv::Scalar statusColor(0, 255, 0);
-
-    if (state.alert_drowsy) {
-        driverStatus = "FATIGUE DETECTED";
-        statusColor = cv::Scalar(0, 165, 255);
-    } else if (state.alert_distracted) {
-        driverStatus = "DISTRACTED";
-        statusColor = cv::Scalar(0, 0, 255);
-    }
-
-    cv::rectangle(
-        left_roi,
-        cv::Rect(20, 58, left_roi.cols - 40, 46),
-        statusColor,
-        cv::FILLED,
-        cv::LINE_AA
-    );
-
-    cv::putText(
-        left_roi,
-        driverStatus,
-        cv::Point(36, 90),
-        cv::FONT_HERSHEY_SIMPLEX,
-        0.95,
-        cv::Scalar(255, 255, 255),
-        2,
-        cv::LINE_AA
-    );
-
-    const int y0 = 145;
-    const int dy = 58;
+    const int y0 = 75;
+    const int dy = 42;
 
     drawStatusDot(
-        left_roi,
-        cv::Point(34, y0),
-        state.face_detected ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255),
+        canvas,
+        cv::Point(25, y0),
+        state.face_detected ? cv::Scalar(0,255,0) : cv::Scalar(0,0,255),
         state.face_detected ? "Face detected" : "Face not found"
     );
 
     drawStatusDot(
-        left_roi,
-        cv::Point(34, y0 + dy),
-        state.eyes_open ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 165, 255),
+        canvas,
+        cv::Point(25, y0 + dy),
+        state.eyes_open ? cv::Scalar(0,255,0) : cv::Scalar(0,165,255),
         state.eyes_open ? "Eyes open" : "Eyes closed"
     );
 
     drawStatusDot(
-        left_roi,
-        cv::Point(34, y0 + dy * 2),
-        state.looking_forward ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255),
+        canvas,
+        cv::Point(25, y0 + dy * 2),
+        state.looking_forward ? cv::Scalar(0,255,0) : cv::Scalar(0,0,255),
         state.looking_forward ? "Looking forward" : "Distracted"
     );
 
     drawStatusDot(
-        left_roi,
-        cv::Point(34, y0 + dy * 3),
-        state.alert_drowsy ? cv::Scalar(0, 165, 255) : cv::Scalar(0, 255, 0),
+        canvas,
+        cv::Point(25, y0 + dy * 3),
+        state.alert_drowsy ? cv::Scalar(0,165,255) : cv::Scalar(0,255,0),
         state.alert_drowsy ? "Drowsiness alert" : "No drowsiness"
     );
 
-    drawStatusDot(
-        left_roi,
-        cv::Point(34, y0 + dy * 4),
-        state.alert_distracted ? cv::Scalar(0, 0, 255) : cv::Scalar(0, 255, 0),
-        state.alert_distracted ? "Distraction alert" : "No distraction"
-    );
-
-    char buf[128];
-    std::snprintf(buf, sizeof(buf), "Eye openness: %.2f", state.eye_openness);
-    cv::putText(
-        left_roi,
-        buf,
-        cv::Point(24, left_roi.rows - 78),
-        cv::FONT_HERSHEY_SIMPLEX,
-        0.75,
-        cv::Scalar(230, 230, 230),
-        2
-    );
-
-    std::snprintf(buf, sizeof(buf), "Head turn: %.1f deg", state.head_turn_deg);
-    cv::putText(
-        left_roi,
-        buf,
-        cv::Point(24, left_roi.rows - 38),
-        cv::FONT_HERSHEY_SIMPLEX,
-        0.75,
-        cv::Scalar(230, 230, 230),
-        2
-    );
-
     if (state.face_detected) {
-        cv::Rect face_on_canvas = state.face_rect + cv::Point(camera_frame.cols, 0);
-        cv::Scalar frame_color = state.alert_drowsy ? cv::Scalar(0, 165, 255) : cv::Scalar(0, 255, 0);
-        drawCornerRect(canvas, face_on_canvas, frame_color, 3);
+        cv::Scalar face_color =
+            state.alert_drowsy
+                ? cv::Scalar(0,165,255)
+                : cv::Scalar(0,255,0);
+
+        drawCornerRect(canvas, state.face_rect, face_color, 3);
     }
 
     if (state.alert_drowsy) {
-        cv::rectangle(
+        drawCenteredBanner(
             canvas,
-            cv::Rect(6, 6, canvas.cols - 12, canvas.rows - 12),
-            cv::Scalar(0, 165, 255),
-            4
+            "DROWSINESS ALERT",
+            cv::Scalar(0,165,255)
         );
-        drawCenteredBanner(canvas, "DROWSINESS ALERT", cv::Scalar(0, 165, 255));
     }
 
     if (state.alert_distracted) {
         cv::rectangle(
             canvas,
-            cv::Rect(0, canvas.rows - 46, canvas.cols, 46),
-            cv::Scalar(0, 0, 255),
+            cv::Rect(0, canvas.rows - 50, canvas.cols, 50),
+            cv::Scalar(0,0,255),
             cv::FILLED
         );
+
         cv::putText(
             canvas,
             "DISTRACTION ALERT",
-            cv::Point(24, canvas.rows - 14),
+            cv::Point(20, canvas.rows - 15),
             cv::FONT_HERSHEY_SIMPLEX,
             0.8,
-            cv::Scalar(255, 255, 255),
+            cv::Scalar(255,255,255),
             2
         );
     }
 
     return canvas;
 }
-
 void DMSHUD::drawCornerRect(cv::Mat& img, const cv::Rect& rect, const cv::Scalar& color, int thickness) const {
     if (rect.area() <= 0) {
         return;
@@ -198,7 +153,8 @@ void DMSHUD::drawStatusDot(cv::Mat& img, const cv::Point& center, const cv::Scal
         cv::FONT_HERSHEY_SIMPLEX,
         0.68,
         cv::Scalar(235, 235, 235),
-        2
+        2,
+        cv::LINE_AA
     );
 }
 
@@ -210,7 +166,7 @@ void DMSHUD::drawCenteredBanner(cv::Mat& img, const std::string& text, const cv:
     cv::Size text_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, scale, thickness, &baseline);
 
     const int pad_x = 24;
-    const int pad_y = 16;
+    const int pad_y = 14;
 
     cv::Rect box(
         (img.cols - text_size.width) / 2 - pad_x,

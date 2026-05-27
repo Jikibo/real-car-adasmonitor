@@ -1,0 +1,118 @@
+\doxysection{ONNXClassifier Class Reference}
+\hypertarget{class_o_n_n_x_classifier}{}\label{class_o_n_n_x_classifier}\index{ONNXClassifier@{ONNXClassifier}}
+
+
+ИИ-\/классификатор стиля вождения на основе ONNX модели.  
+
+
+
+
+{\ttfamily \+\#include $<$onnx\+\_\+classifier.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_o_n_n_x_classifier_a4a75be0f5b6f6e5cbf815112ad71ebdc}{ONNXClassifier}} (const std::\+string \&model\+Path, const std::\+string \&params\+Path)
+\begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{struct_classification_result}{Classification\+Result}} \doxymbox{\hyperlink{class_o_n_n_x_classifier_a4c1f8ea175dc3aa101f3865dfad089e4}{classify}} (const \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \&record)
+\begin{DoxyCompactList}\small\item\em Выполняет классификацию записи телеметрии. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_o_n_n_x_classifier_a74cd888c4d401268b86230e4e7cafeeb}{read\+Normalization\+Params}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Читает параметры нормализации из JSON файла. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::\+vector$<$ float $>$ \doxymbox{\hyperlink{class_o_n_n_x_classifier_aec4324cd2b7998ddc0c648be59386043}{mean\+\_\+}}
+\item 
+std::\+vector$<$ float $>$ \doxymbox{\hyperlink{class_o_n_n_x_classifier_adfd5beb566b2daf68143bd0ba37f9198}{std\+\_\+}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+ИИ-\/классификатор стиля вождения на основе ONNX модели. 
+
+Класс \doxylink{class_o_n_n_x_classifier}{ONNXClassifier} загружает модель и выполняет классификацию телеметрии автомобиля. 
+
+\label{class_o_n_n_x_classifier_doc-constructors}
+\Hypertarget{class_o_n_n_x_classifier_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_o_n_n_x_classifier_a4a75be0f5b6f6e5cbf815112ad71ebdc}\index{ONNXClassifier@{ONNXClassifier}!ONNXClassifier@{ONNXClassifier}}
+\index{ONNXClassifier@{ONNXClassifier}!ONNXClassifier@{ONNXClassifier}}
+\doxysubsubsection{\texorpdfstring{ONNXClassifier()}{ONNXClassifier()}}
+{\footnotesize\ttfamily \label{class_o_n_n_x_classifier_a4a75be0f5b6f6e5cbf815112ad71ebdc} 
+ONNXClassifier::\+\+ONNXClassifier (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{model\+Path}{, }\item[{const std::\+string \&}]{params\+Path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор класса. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em model\+Path} & Путь к файлу модели ONNX. \\
+\hline
+{\em params\+Path} & Путь к JSON с параметрами нормализации. \\
+\hline
+\end{DoxyParams}
+
+
+\label{class_o_n_n_x_classifier_doc-func-members}
+\Hypertarget{class_o_n_n_x_classifier_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_o_n_n_x_classifier_a4c1f8ea175dc3aa101f3865dfad089e4}\index{ONNXClassifier@{ONNXClassifier}!classify@{classify}}
+\index{classify@{classify}!ONNXClassifier@{ONNXClassifier}}
+\doxysubsubsection{\texorpdfstring{classify()}{classify()}}
+{\footnotesize\ttfamily \label{class_o_n_n_x_classifier_a4c1f8ea175dc3aa101f3865dfad089e4} 
+\doxymbox{\hyperlink{struct_classification_result}{Classification\+Result}} ONNXClassifier::\+classify (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \&}]{record}{}\end{DoxyParamCaption})}
+
+
+
+Выполняет классификацию записи телеметрии. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em record} & Запись для классификации. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Результат классификации. 
+\end{DoxyReturn}
+\Hypertarget{class_o_n_n_x_classifier_a74cd888c4d401268b86230e4e7cafeeb}\index{ONNXClassifier@{ONNXClassifier}!readNormalizationParams@{readNormalizationParams}}
+\index{readNormalizationParams@{readNormalizationParams}!ONNXClassifier@{ONNXClassifier}}
+\doxysubsubsection{\texorpdfstring{readNormalizationParams()}{readNormalizationParams()}}
+{\footnotesize\ttfamily \label{class_o_n_n_x_classifier_a74cd888c4d401268b86230e4e7cafeeb} 
+void ONNXClassifier::\+read\+Normalization\+Params (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Читает параметры нормализации из JSON файла. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Путь к файлу с параметрами. \\
+\hline
+\end{DoxyParams}
+
+
+\label{class_o_n_n_x_classifier_doc-variable-members}
+\Hypertarget{class_o_n_n_x_classifier_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_o_n_n_x_classifier_aec4324cd2b7998ddc0c648be59386043}\index{ONNXClassifier@{ONNXClassifier}!mean\_@{mean\_}}
+\index{mean\_@{mean\_}!ONNXClassifier@{ONNXClassifier}}
+\doxysubsubsection{\texorpdfstring{mean\_}{mean\_}}
+{\footnotesize\ttfamily \label{class_o_n_n_x_classifier_aec4324cd2b7998ddc0c648be59386043} 
+std::\+vector$<$float$>$ ONNXClassifier::\+mean\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\Hypertarget{class_o_n_n_x_classifier_adfd5beb566b2daf68143bd0ba37f9198}\index{ONNXClassifier@{ONNXClassifier}!std\_@{std\_}}
+\index{std\_@{std\_}!ONNXClassifier@{ONNXClassifier}}
+\doxysubsubsection{\texorpdfstring{std\_}{std\_}}
+{\footnotesize\ttfamily \label{class_o_n_n_x_classifier_adfd5beb566b2daf68143bd0ba37f9198} 
+std::\+vector$<$float$>$ ONNXClassifier::\+std\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{onnx__classifier_8h}{onnx\+\_\+classifier.\+h}}\item 
+src/\+\doxymbox{\hyperlink{onnx__classifier_8cpp}{onnx\+\_\+classifier.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,122 @@
+\doxysection{DMSHUD Class Reference}
+\hypertarget{class_d_m_s_h_u_d}{}\label{class_d_m_s_h_u_d}\index{DMSHUD@{DMSHUD}}
+
+
+HUD для отображения состояния водителя и камеры.  
+
+
+
+
+{\ttfamily \+\#include $<$dms\+\_\+hud.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+cv::\+\+Mat \doxymbox{\hyperlink{class_d_m_s_h_u_d_a52151bc59783f724497d4404a51af97d}{draw}} (const cv::\+\+Mat \&camera\+\_\+frame, const \doxymbox{\hyperlink{struct_driver_state}{Driver\+State}} \&state) const
+\begin{DoxyCompactList}\small\item\em Рисует DMS-\/панель. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_d_m_s_h_u_d_a0ccf8b361028b8fd308855722ec029eb}{draw\+Corner\+Rect}} (cv::\+\+Mat \&img, const cv::\+\+Rect \&rect, const cv::\+\+Scalar \&color, int thickness=2) const
+\begin{DoxyCompactList}\small\item\em Рисует угловую рамку. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_d_m_s_h_u_d_a02dc7d2720de22f35fd6aa21b0b1dc67}{draw\+Status\+Dot}} (cv::\+\+Mat \&img, const cv::\+\+Point \&center, const cv::\+\+Scalar \&color, const std::\+string \&label) const
+\begin{DoxyCompactList}\small\item\em Рисует точку статуса. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_d_m_s_h_u_d_ab470269d289424ebbb660c564a99f276}{draw\+Centered\+Banner}} (cv::\+\+Mat \&img, const std::\+string \&text, const cv::\+\+Scalar \&color) const
+\begin{DoxyCompactList}\small\item\em Рисует центральную полосу с текстом. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+HUD для отображения состояния водителя и камеры. 
+
+Левую часть панели занимает список статусов, правую — изображение с камеры с рамкой лица. 
+
+\label{class_d_m_s_h_u_d_doc-func-members}
+\Hypertarget{class_d_m_s_h_u_d_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_d_m_s_h_u_d_a52151bc59783f724497d4404a51af97d}\index{DMSHUD@{DMSHUD}!draw@{draw}}
+\index{draw@{draw}!DMSHUD@{DMSHUD}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_d_m_s_h_u_d_a52151bc59783f724497d4404a51af97d} 
+cv::\+\+Mat DMSHUD::\+draw (\begin{DoxyParamCaption}\item[{const cv::\+\+Mat \&}]{camera\+\_\+frame}{, }\item[{const \doxymbox{\hyperlink{struct_driver_state}{Driver\+State}} \&}]{state}{}\end{DoxyParamCaption}) const}
+
+
+
+Рисует DMS-\/панель. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em camera\+\_\+frame} & Кадр с камеры. \\
+\hline
+{\em state} & Состояние водителя. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Готовый кадр панели DMS. 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_h_u_d_ab470269d289424ebbb660c564a99f276}\index{DMSHUD@{DMSHUD}!drawCenteredBanner@{drawCenteredBanner}}
+\index{drawCenteredBanner@{drawCenteredBanner}!DMSHUD@{DMSHUD}}
+\doxysubsubsection{\texorpdfstring{drawCenteredBanner()}{drawCenteredBanner()}}
+{\footnotesize\ttfamily \label{class_d_m_s_h_u_d_ab470269d289424ebbb660c564a99f276} 
+void DMSHUD::\+draw\+Centered\+Banner (\begin{DoxyParamCaption}\item[{cv::\+\+Mat \&}]{img}{, }\item[{const std::\+string \&}]{text}{, }\item[{const cv::\+\+Scalar \&}]{color}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Рисует центральную полосу с текстом. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & Изображение для рисования. \\
+\hline
+{\em text} & Текст для отображения. \\
+\hline
+{\em color} & Цвет текста. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_d_m_s_h_u_d_a0ccf8b361028b8fd308855722ec029eb}\index{DMSHUD@{DMSHUD}!drawCornerRect@{drawCornerRect}}
+\index{drawCornerRect@{drawCornerRect}!DMSHUD@{DMSHUD}}
+\doxysubsubsection{\texorpdfstring{drawCornerRect()}{drawCornerRect()}}
+{\footnotesize\ttfamily \label{class_d_m_s_h_u_d_a0ccf8b361028b8fd308855722ec029eb} 
+void DMSHUD::\+draw\+Corner\+Rect (\begin{DoxyParamCaption}\item[{cv::\+\+Mat \&}]{img}{, }\item[{const cv::\+\+Rect \&}]{rect}{, }\item[{const cv::\+\+Scalar \&}]{color}{, }\item[{int}]{thickness}{ = {\ttfamily 2}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Рисует угловую рамку. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & Изображение для рисования. \\
+\hline
+{\em rect} & Прямоугольник с координатами. \\
+\hline
+{\em color} & Цвет линии. \\
+\hline
+{\em thickness} & Толщина линии. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_d_m_s_h_u_d_a02dc7d2720de22f35fd6aa21b0b1dc67}\index{DMSHUD@{DMSHUD}!drawStatusDot@{drawStatusDot}}
+\index{drawStatusDot@{drawStatusDot}!DMSHUD@{DMSHUD}}
+\doxysubsubsection{\texorpdfstring{drawStatusDot()}{drawStatusDot()}}
+{\footnotesize\ttfamily \label{class_d_m_s_h_u_d_a02dc7d2720de22f35fd6aa21b0b1dc67} 
+void DMSHUD::\+draw\+Status\+Dot (\begin{DoxyParamCaption}\item[{cv::\+\+Mat \&}]{img}{, }\item[{const cv::\+\+Point \&}]{center}{, }\item[{const cv::\+\+Scalar \&}]{color}{, }\item[{const std::\+string \&}]{label}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Рисует точку статуса. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & Изображение для рисования. \\
+\hline
+{\em center} & Центр точки. \\
+\hline
+{\em color} & Цвет точки. \\
+\hline
+{\em label} & Текст метки. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{dms__hud_8h}{dms\+\_\+hud.\+h}}\item 
+src/\+\doxymbox{\hyperlink{dms__hud_8cpp}{dms\+\_\+hud.\+cpp}}\end{DoxyCompactItemize}

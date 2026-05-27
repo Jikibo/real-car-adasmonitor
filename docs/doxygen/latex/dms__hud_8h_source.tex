@@ -1,0 +1,24 @@
+\doxysection{dms\+\_\+hud.\+h}
+\hypertarget{dms__hud_8h_source}{}\label{dms__hud_8h_source}\index{src/dms\_hud.h@{src/dms\_hud.h}}
+\doxymbox{\hyperlink{dms__hud_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{dms__monitor_8h}{dms\_monitor.h}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <opencv2/opencv.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_d_m_s_h_u_d}{DMSHUD}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ cv::Mat\ \doxymbox{\hyperlink{class_d_m_s_h_u_d_a52151bc59783f724497d4404a51af97d}{draw}}(\textcolor{keyword}{const}\ cv::Mat\&\ camera\_frame,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_driver_state}{DriverState}}\&\ state)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_d_m_s_h_u_d_a0ccf8b361028b8fd308855722ec029eb}{drawCornerRect}}(cv::Mat\&\ img,\ \textcolor{keyword}{const}\ cv::Rect\&\ rect,\ \textcolor{keyword}{const}\ cv::Scalar\&\ color,\ \textcolor{keywordtype}{int}\ thickness\ =\ 2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_d_m_s_h_u_d_a02dc7d2720de22f35fd6aa21b0b1dc67}{drawStatusDot}}(cv::Mat\&\ img,\ \textcolor{keyword}{const}\ cv::Point\&\ center,\ \textcolor{keyword}{const}\ cv::Scalar\&\ color,\ \textcolor{keyword}{const}\ std::string\&\ label)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_d_m_s_h_u_d_ab470269d289424ebbb660c564a99f276}{drawCenteredBanner}}(cv::Mat\&\ img,\ \textcolor{keyword}{const}\ std::string\&\ text,\ \textcolor{keyword}{const}\ cv::Scalar\&\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ \};}
+
+\end{DoxyCode}

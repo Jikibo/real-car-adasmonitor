@@ -1,0 +1,61 @@
+\doxysection{dms\+\_\+monitor.\+h}
+\hypertarget{dms__monitor_8h_source}{}\label{dms__monitor_8h_source}\index{src/dms\_monitor.h@{src/dms\_monitor.h}}
+\doxymbox{\hyperlink{dms__monitor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <opencv2/opencv.hpp>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <opencv2/dnn.hpp>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_driver_state}{DriverState}}\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_driver_state_a095560e36e2ba9fe6454b3a8f9312468}{face\_detected}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_driver_state_add9c2f78ab746099c2d6096f01786f73}{eyes\_open}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_driver_state_a7d3753689aa9c044d2544c60ba0e46d0}{looking\_forward}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{struct_driver_state_a1b132ec09f0c4f6e7a9a3d0235262c51}{eye\_openness}}\ =\ 0.0f;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{struct_driver_state_a5f6d1cf6a60d43aec7291a8293e3c6b3}{head\_turn\_deg}}\ =\ 0.0f;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_driver_state_a0a4fba11c920ef2a63da7335ddba718c}{alert\_drowsy}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{struct_driver_state_ae89099f22525d9644381727b5d018bc6}{alert\_distracted}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00036\ \ \ \ \ cv::Rect\ \doxymbox{\hyperlink{struct_driver_state_a139c9d9b635410f2cd60720b9bb2b239}{face\_rect}};}
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_d_m_s_monitor_afb2b4f0e672dc02ff078a11bb6a903a2}{DMSMonitor}}\ \{}
+\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{explicit}\ \doxymbox{\hyperlink{class_d_m_s_monitor_afb2b4f0e672dc02ff078a11bb6a903a2}{DMSMonitor}}(\textcolor{keyword}{const}\ std::string\&\ models\_path);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{struct_driver_state}{DriverState}}\ \doxymbox{\hyperlink{class_d_m_s_monitor_ae86abf879fa9977685c90ff2e67d487c}{analyze}}(\textcolor{keyword}{const}\ cv::Mat\&\ frame);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_d_m_s_monitor_a37b5f121d1eea0bb5556613b106c2aaa}{isReady}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00071\ \ \ \ \ cv::Rect\ \doxymbox{\hyperlink{class_d_m_s_monitor_afe73889879ecefccb74cf6716160fb57}{detectFace}}(\textcolor{keyword}{const}\ cv::Mat\&\ frame,\ \textcolor{keywordtype}{float}*\ confidence\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{class_d_m_s_monitor_af45b560553927294eb26a0f5c7b3c898}{estimateEyeOpenness}}(\textcolor{keyword}{const}\ cv::Mat\&\ frame,\ \textcolor{keyword}{const}\ cv::Rect\&\ face\_rect);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{class_d_m_s_monitor_a2a95c34a2082a1347169423a28acc859}{estimateHeadTurn}}(\textcolor{keyword}{const}\ cv::Mat\&\ frame,\ \textcolor{keyword}{const}\ cv::Rect\&\ face\_rect)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_d_m_s_monitor_aea2fb40308c4d41633a4f13d8fdaafd4}{updateEyeHistory}}(\textcolor{keywordtype}{bool}\ eyes\_open);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_d_m_s_monitor_a66c5a9113c8c54230f94d6c6c8fb7998}{isDrowsy}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00102\ \ \ \ \ cv::dnn::Net\ \doxymbox{\hyperlink{class_d_m_s_monitor_aebb7128e513d218f2806110305233a7e}{face\_net\_}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ cv::CascadeClassifier\ \doxymbox{\hyperlink{class_d_m_s_monitor_aaf1291c74b77168d40dc78910347b34d}{eye\_cascade\_}};\ \ }
+\DoxyCodeLine{00104\ \ \ \ \ std::deque<bool>\ \doxymbox{\hyperlink{class_d_m_s_monitor_a088db97bd7f4272b117ce63052dad743}{eye\_history\_}};\ \ \ }
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{class_d_m_s_monitor_a935494fd3c61a85bc46878604102ef0b}{face\_conf\_threshold\_}}\ =\ 0.5f;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{float}\ \doxymbox{\hyperlink{class_d_m_s_monitor_ada06f5a08bd94d9f1026b0c821b214ed}{looking\_forward\_threshold\_deg\_}}\ =\ 15.0f;\ \ \ }
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{class_d_m_s_monitor_aab369966fb658bb6a35e46f12f48f5b5}{kHistorySize}}\ =\ 45;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \};}
+
+\end{DoxyCode}

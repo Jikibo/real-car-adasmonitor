@@ -1,0 +1,247 @@
+\doxysection{DMSMonitor Class Reference}
+\hypertarget{class_d_m_s_monitor}{}\label{class_d_m_s_monitor}\index{DMSMonitor@{DMSMonitor}}
+
+
+Модуль детекции состояния водителя.  
+
+
+
+
+{\ttfamily \+\#include $<$dms\+\_\+monitor.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_d_m_s_monitor_afb2b4f0e672dc02ff078a11bb6a903a2}{DMSMonitor}} (const std::\+string \&models\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{struct_driver_state}{Driver\+State}} \doxymbox{\hyperlink{class_d_m_s_monitor_ae86abf879fa9977685c90ff2e67d487c}{analyze}} (const cv::\+\+Mat \&frame)
+\begin{DoxyCompactList}\small\item\em Анализирует изображение и определяет состояние водителя. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_d_m_s_monitor_a37b5f121d1eea0bb5556613b106c2aaa}{is\+Ready}} () const
+\begin{DoxyCompactList}\small\item\em Проверяет готовность модуля к работе. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+cv::\+\+Rect \doxymbox{\hyperlink{class_d_m_s_monitor_afe73889879ecefccb74cf6716160fb57}{detect\+Face}} (const cv::\+\+Mat \&frame, float \texorpdfstring{$\ast$}{*}confidence=nullptr)
+\begin{DoxyCompactList}\small\item\em Обнаруживает лицо на кадре. \end{DoxyCompactList}\item 
+float \doxymbox{\hyperlink{class_d_m_s_monitor_af45b560553927294eb26a0f5c7b3c898}{estimate\+Eye\+Openness}} (const cv::\+\+Mat \&frame, const cv::\+\+Rect \&face\+\_\+rect)
+\begin{DoxyCompactList}\small\item\em Оценивает степень открытости глаз. \end{DoxyCompactList}\item 
+float \doxymbox{\hyperlink{class_d_m_s_monitor_a2a95c34a2082a1347169423a28acc859}{estimate\+Head\+Turn}} (const cv::\+\+Mat \&frame, const cv::\+\+Rect \&face\+\_\+rect) const
+\begin{DoxyCompactList}\small\item\em Оценивает угол поворота головы. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_d_m_s_monitor_aea2fb40308c4d41633a4f13d8fdaafd4}{update\+Eye\+History}} (bool eyes\+\_\+open)
+\begin{DoxyCompactList}\small\item\em Обновляет историю состояния глаз. \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_d_m_s_monitor_a66c5a9113c8c54230f94d6c6c8fb7998}{is\+Drowsy}} () const
+\begin{DoxyCompactList}\small\item\em Проверяет признаки усталости. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+cv::\+dnn::\+\+Net \doxymbox{\hyperlink{class_d_m_s_monitor_aebb7128e513d218f2806110305233a7e}{face\+\_\+net\+\_\+}}
+\item 
+cv::\+\+Cascade\+Classifier \doxymbox{\hyperlink{class_d_m_s_monitor_aaf1291c74b77168d40dc78910347b34d}{eye\+\_\+cascade\+\_\+}}
+\item 
+std::\+deque$<$ bool $>$ \doxymbox{\hyperlink{class_d_m_s_monitor_a088db97bd7f4272b117ce63052dad743}{eye\+\_\+history\+\_\+}}
+\item 
+float \doxymbox{\hyperlink{class_d_m_s_monitor_a935494fd3c61a85bc46878604102ef0b}{face\+\_\+conf\+\_\+threshold\+\_\+}} = 0.\+5f
+\item 
+float \doxymbox{\hyperlink{class_d_m_s_monitor_ada06f5a08bd94d9f1026b0c821b214ed}{looking\+\_\+forward\+\_\+threshold\+\_\+deg\+\_\+}} = 15.\+0f
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int \doxymbox{\hyperlink{class_d_m_s_monitor_aab369966fb658bb6a35e46f12f48f5b5}{k\+History\+Size}} = 45
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Модуль детекции состояния водителя. 
+
+Класс \doxylink{class_d_m_s_monitor}{DMSMonitor} анализирует кадры с камеры и определяет состояние водителя (усталость, отвлечение). 
+
+\label{class_d_m_s_monitor_doc-constructors}
+\Hypertarget{class_d_m_s_monitor_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_d_m_s_monitor_afb2b4f0e672dc02ff078a11bb6a903a2}\index{DMSMonitor@{DMSMonitor}!DMSMonitor@{DMSMonitor}}
+\index{DMSMonitor@{DMSMonitor}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{DMSMonitor()}{DMSMonitor()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_afb2b4f0e672dc02ff078a11bb6a903a2} 
+DMSMonitor::\+\+DMSMonitor (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{models\+\_\+path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор класса. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em models\+\_\+path} & Путь к папке с моделями DMS. \\
+\hline
+\end{DoxyParams}
+
+
+\label{class_d_m_s_monitor_doc-func-members}
+\Hypertarget{class_d_m_s_monitor_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_d_m_s_monitor_ae86abf879fa9977685c90ff2e67d487c}\index{DMSMonitor@{DMSMonitor}!analyze@{analyze}}
+\index{analyze@{analyze}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{analyze()}{analyze()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_ae86abf879fa9977685c90ff2e67d487c} 
+\doxymbox{\hyperlink{struct_driver_state}{Driver\+State}} DMSMonitor::\+analyze (\begin{DoxyParamCaption}\item[{const cv::\+\+Mat \&}]{frame}{}\end{DoxyParamCaption})}
+
+
+
+Анализирует изображение и определяет состояние водителя. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Входное изображение. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Состояние водителя (\doxylink{struct_driver_state}{Driver\+State}). 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_monitor_afe73889879ecefccb74cf6716160fb57}\index{DMSMonitor@{DMSMonitor}!detectFace@{detectFace}}
+\index{detectFace@{detectFace}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{detectFace()}{detectFace()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_afe73889879ecefccb74cf6716160fb57} 
+cv::\+\+Rect DMSMonitor::\+detect\+Face (\begin{DoxyParamCaption}\item[{const cv::\+\+Mat \&}]{frame}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{confidence}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обнаруживает лицо на кадре. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Входное изображение. \\
+\hline
+{\em confidence} & Уровень уверенности (опционально). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Прямоугольник с координатами лица. 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_monitor_af45b560553927294eb26a0f5c7b3c898}\index{DMSMonitor@{DMSMonitor}!estimateEyeOpenness@{estimateEyeOpenness}}
+\index{estimateEyeOpenness@{estimateEyeOpenness}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{estimateEyeOpenness()}{estimateEyeOpenness()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_af45b560553927294eb26a0f5c7b3c898} 
+float DMSMonitor::\+estimate\+Eye\+Openness (\begin{DoxyParamCaption}\item[{const cv::\+\+Mat \&}]{frame}{, }\item[{const cv::\+\+Rect \&}]{face\+\_\+rect}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Оценивает степень открытости глаз. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Входное изображение. \\
+\hline
+{\em face\+\_\+rect} & Прямоугольник с лицом. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Степень открытости (0.\+0 -\/ 1.\+0). 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_monitor_a2a95c34a2082a1347169423a28acc859}\index{DMSMonitor@{DMSMonitor}!estimateHeadTurn@{estimateHeadTurn}}
+\index{estimateHeadTurn@{estimateHeadTurn}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{estimateHeadTurn()}{estimateHeadTurn()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_a2a95c34a2082a1347169423a28acc859} 
+float DMSMonitor::\+estimate\+Head\+Turn (\begin{DoxyParamCaption}\item[{const cv::\+\+Mat \&}]{frame}{, }\item[{const cv::\+\+Rect \&}]{face\+\_\+rect}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Оценивает угол поворота головы. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Входное изображение. \\
+\hline
+{\em face\+\_\+rect} & Прямоугольник с лицом. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Угол поворота в градусах. 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_monitor_a66c5a9113c8c54230f94d6c6c8fb7998}\index{DMSMonitor@{DMSMonitor}!isDrowsy@{isDrowsy}}
+\index{isDrowsy@{isDrowsy}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{isDrowsy()}{isDrowsy()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_a66c5a9113c8c54230f94d6c6c8fb7998} 
+bool DMSMonitor::\+is\+Drowsy (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Проверяет признаки усталости. 
+
+\begin{DoxyReturn}{Returns}
+true, если водитель устал; false в противном случае. 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_monitor_a37b5f121d1eea0bb5556613b106c2aaa}\index{DMSMonitor@{DMSMonitor}!isReady@{isReady}}
+\index{isReady@{isReady}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{isReady()}{isReady()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_a37b5f121d1eea0bb5556613b106c2aaa} 
+bool DMSMonitor::\+is\+Ready (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Проверяет готовность модуля к работе. 
+
+\begin{DoxyReturn}{Returns}
+true, если модели загружены успешно; false в противном случае. 
+\end{DoxyReturn}
+\Hypertarget{class_d_m_s_monitor_aea2fb40308c4d41633a4f13d8fdaafd4}\index{DMSMonitor@{DMSMonitor}!updateEyeHistory@{updateEyeHistory}}
+\index{updateEyeHistory@{updateEyeHistory}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{updateEyeHistory()}{updateEyeHistory()}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_aea2fb40308c4d41633a4f13d8fdaafd4} 
+void DMSMonitor::\+update\+Eye\+History (\begin{DoxyParamCaption}\item[{bool}]{eyes\+\_\+open}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Обновляет историю состояния глаз. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em eyes\+\_\+open} & Состояние открытости глаз. \\
+\hline
+\end{DoxyParams}
+
+
+\label{class_d_m_s_monitor_doc-variable-members}
+\Hypertarget{class_d_m_s_monitor_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_d_m_s_monitor_aaf1291c74b77168d40dc78910347b34d}\index{DMSMonitor@{DMSMonitor}!eye\_cascade\_@{eye\_cascade\_}}
+\index{eye\_cascade\_@{eye\_cascade\_}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{eye\_cascade\_}{eye\_cascade\_}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_aaf1291c74b77168d40dc78910347b34d} 
+cv::\+\+Cascade\+Classifier DMSMonitor::\+eye\+\_\+cascade\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+Каскадный классификатор глаз. \Hypertarget{class_d_m_s_monitor_a088db97bd7f4272b117ce63052dad743}\index{DMSMonitor@{DMSMonitor}!eye\_history\_@{eye\_history\_}}
+\index{eye\_history\_@{eye\_history\_}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{eye\_history\_}{eye\_history\_}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_a088db97bd7f4272b117ce63052dad743} 
+std::\+deque$<$bool$>$ DMSMonitor::\+eye\+\_\+history\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+История состояния глаз. \Hypertarget{class_d_m_s_monitor_a935494fd3c61a85bc46878604102ef0b}\index{DMSMonitor@{DMSMonitor}!face\_conf\_threshold\_@{face\_conf\_threshold\_}}
+\index{face\_conf\_threshold\_@{face\_conf\_threshold\_}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{face\_conf\_threshold\_}{face\_conf\_threshold\_}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_a935494fd3c61a85bc46878604102ef0b} 
+float DMSMonitor::\+face\+\_\+conf\+\_\+threshold\+\_\+ = 0.\+5f\hspace{0.3cm}{\ttfamily [private]}}
+
+Порог уверенности для лица. \Hypertarget{class_d_m_s_monitor_aebb7128e513d218f2806110305233a7e}\index{DMSMonitor@{DMSMonitor}!face\_net\_@{face\_net\_}}
+\index{face\_net\_@{face\_net\_}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{face\_net\_}{face\_net\_}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_aebb7128e513d218f2806110305233a7e} 
+cv::\+dnn::\+\+Net DMSMonitor::\+face\+\_\+net\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+Сеть для детекции лица. \Hypertarget{class_d_m_s_monitor_aab369966fb658bb6a35e46f12f48f5b5}\index{DMSMonitor@{DMSMonitor}!kHistorySize@{kHistorySize}}
+\index{kHistorySize@{kHistorySize}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{kHistorySize}{kHistorySize}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_aab369966fb658bb6a35e46f12f48f5b5} 
+int DMSMonitor::\+k\+History\+Size = 45\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+Размер истории глаз (в кадрах). \Hypertarget{class_d_m_s_monitor_ada06f5a08bd94d9f1026b0c821b214ed}\index{DMSMonitor@{DMSMonitor}!looking\_forward\_threshold\_deg\_@{looking\_forward\_threshold\_deg\_}}
+\index{looking\_forward\_threshold\_deg\_@{looking\_forward\_threshold\_deg\_}!DMSMonitor@{DMSMonitor}}
+\doxysubsubsection{\texorpdfstring{looking\_forward\_threshold\_deg\_}{looking\_forward\_threshold\_deg\_}}
+{\footnotesize\ttfamily \label{class_d_m_s_monitor_ada06f5a08bd94d9f1026b0c821b214ed} 
+float DMSMonitor::\+looking\+\_\+forward\+\_\+threshold\+\_\+deg\+\_\+ = 15.\+0f\hspace{0.3cm}{\ttfamily [private]}}
+
+Порог угла для "{}смотрит прямо"{}. 
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{dms__monitor_8h}{dms\+\_\+monitor.\+h}}\item 
+src/\+\doxymbox{\hyperlink{dms__monitor_8cpp}{dms\+\_\+monitor.\+cpp}}\end{DoxyCompactItemize}

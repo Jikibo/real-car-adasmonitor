@@ -1,0 +1,219 @@
+\doxysection{OBDParser Class Reference}
+\hypertarget{class_o_b_d_parser}{}\label{class_o_b_d_parser}\index{OBDParser@{OBDParser}}
+
+
+Парсер CSV-\/телеметрии автомобиля.  
+
+
+
+
+{\ttfamily \+\#include $<$obd\+\_\+parser.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_o_b_d_parser_a3da2b8f97484135937c2ea45c089b747}{OBDParser}} (std::\+string filename)
+\begin{DoxyCompactList}\small\item\em Конструктор класса. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{class_o_b_d_parser_adba6eccb5eba0de7f6618bce88beed05}{load}} ()
+\begin{DoxyCompactList}\small\item\em Загружает CSV-\/файл и возвращает число записей. \end{DoxyCompactList}\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{class_o_b_d_parser_a36cf3ee555c837f704c0cd20daa312ea}{size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Возвращает количество записей. \end{DoxyCompactList}\item 
+const \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \& \doxymbox{\hyperlink{class_o_b_d_parser_a20486bdd1b4eeae5b0f3495b785694d0}{get\+Record}} (int index) const
+\begin{DoxyCompactList}\small\item\em Получает запись по индексу. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \doxymbox{\hyperlink{class_o_b_d_parser_a5c3bdca1ae71fa9c2efbabc5b8a017df}{label\+To\+Int}} (const std::\+string \&label)
+\begin{DoxyCompactList}\small\item\em Преобразует строковый тег в целое число. \end{DoxyCompactList}\item 
+static std::\+string \doxymbox{\hyperlink{class_o_b_d_parser_a2ad3fd61777c99911333122bdbb00922}{int\+To\+Label}} (int label)
+\begin{DoxyCompactList}\small\item\em Преобразует целое число в строковый тег. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{class_o_b_d_parser_a1f0a27c562fb331fb3ef4f4711445e35}{parse\+Line}} (const std::\+string \&line, \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \&record, std::\+string \&error) const
+\begin{DoxyCompactList}\small\item\em Парсит одну строку CSV. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std::\+string \doxymbox{\hyperlink{class_o_b_d_parser_a30ee825ae7c29b4f97c4197df087433d}{trim}} (const std::\+string \&s)
+\begin{DoxyCompactList}\small\item\em Удаляет пробельные символы в начале и конце строки. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std::\+string \doxymbox{\hyperlink{class_o_b_d_parser_a83c4a1e5f8a1d3eb5258279bff29c56a}{filename\+\_\+}}
+\item 
+std::\+vector$<$ \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} $>$ \doxymbox{\hyperlink{class_o_b_d_parser_a5deaf2393e50fa1ef511bf761aecdb1b}{records\+\_\+}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Парсер CSV-\/телеметрии автомобиля. 
+
+Класс \doxylink{class_o_b_d_parser}{OBDParser} отвечает за чтение данных из CSV файла, содержащего телеметрию автомобиля. 
+
+\label{class_o_b_d_parser_doc-constructors}
+\Hypertarget{class_o_b_d_parser_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_o_b_d_parser_a3da2b8f97484135937c2ea45c089b747}\index{OBDParser@{OBDParser}!OBDParser@{OBDParser}}
+\index{OBDParser@{OBDParser}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{OBDParser()}{OBDParser()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a3da2b8f97484135937c2ea45c089b747} 
+OBDParser::\+\+OBDParser (\begin{DoxyParamCaption}\item[{std::\+string}]{filename}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Конструктор класса. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Путь к файлу с данными. \\
+\hline
+\end{DoxyParams}
+
+
+\label{class_o_b_d_parser_doc-func-members}
+\Hypertarget{class_o_b_d_parser_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_o_b_d_parser_a20486bdd1b4eeae5b0f3495b785694d0}\index{OBDParser@{OBDParser}!getRecord@{getRecord}}
+\index{getRecord@{getRecord}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{getRecord()}{getRecord()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a20486bdd1b4eeae5b0f3495b785694d0} 
+const \doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \& OBDParser::\+get\+Record (\begin{DoxyParamCaption}\item[{int}]{index}{}\end{DoxyParamCaption}) const}
+
+
+
+Получает запись по индексу. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс записи. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Ссылка на запись. 
+\end{DoxyReturn}
+\Hypertarget{class_o_b_d_parser_a2ad3fd61777c99911333122bdbb00922}\index{OBDParser@{OBDParser}!intToLabel@{intToLabel}}
+\index{intToLabel@{intToLabel}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{intToLabel()}{intToLabel()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a2ad3fd61777c99911333122bdbb00922} 
+std::\+string OBDParser::\+int\+To\+Label (\begin{DoxyParamCaption}\item[{int}]{label}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Преобразует целое число в строковый тег. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em label} & Целочисленный код метки. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Строковый тег. 
+\end{DoxyReturn}
+\Hypertarget{class_o_b_d_parser_a5c3bdca1ae71fa9c2efbabc5b8a017df}\index{OBDParser@{OBDParser}!labelToInt@{labelToInt}}
+\index{labelToInt@{labelToInt}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{labelToInt()}{labelToInt()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a5c3bdca1ae71fa9c2efbabc5b8a017df} 
+int OBDParser::\+label\+To\+Int (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{label}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Преобразует строковый тег в целое число. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em label} & Строковый тег ("{}\+SLOW"{}, "{}\+NORMAL"{}, "{}\+AGGRESSIVE"{}). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Целочисленный код метки. 
+\end{DoxyReturn}
+\Hypertarget{class_o_b_d_parser_adba6eccb5eba0de7f6618bce88beed05}\index{OBDParser@{OBDParser}!load@{load}}
+\index{load@{load}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_adba6eccb5eba0de7f6618bce88beed05} 
+int OBDParser::\+load (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Загружает CSV-\/файл и возвращает число записей. 
+
+\begin{DoxyReturn}{Returns}
+Количество загруженных записей или -\/1 при ошибке. 
+\end{DoxyReturn}
+\Hypertarget{class_o_b_d_parser_a1f0a27c562fb331fb3ef4f4711445e35}\index{OBDParser@{OBDParser}!parseLine@{parseLine}}
+\index{parseLine@{parseLine}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{parseLine()}{parseLine()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a1f0a27c562fb331fb3ef4f4711445e35} 
+bool OBDParser::\+parse\+Line (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{line}{, }\item[{\doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \&}]{record}{, }\item[{std::\+string \&}]{error}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Парсит одну строку CSV. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & Строка данных. \\
+\hline
+{\em record} & Запись для заполнения. \\
+\hline
+{\em error} & Сообщение об ошибке при неудаче. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, если парсинг успешен; false в противном случае. 
+\end{DoxyReturn}
+\Hypertarget{class_o_b_d_parser_a36cf3ee555c837f704c0cd20daa312ea}\index{OBDParser@{OBDParser}!size@{size}}
+\index{size@{size}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a36cf3ee555c837f704c0cd20daa312ea} 
+std::\+size\+\_\+t OBDParser::\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Возвращает количество записей. 
+
+\begin{DoxyReturn}{Returns}
+Число записей. 
+\end{DoxyReturn}
+\Hypertarget{class_o_b_d_parser_a30ee825ae7c29b4f97c4197df087433d}\index{OBDParser@{OBDParser}!trim@{trim}}
+\index{trim@{trim}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{trim()}{trim()}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a30ee825ae7c29b4f97c4197df087433d} 
+std::\+string OBDParser::\+trim (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Удаляет пробельные символы в начале и конце строки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Входная строка. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Обрезанная строка. 
+\end{DoxyReturn}
+
+
+\label{class_o_b_d_parser_doc-variable-members}
+\Hypertarget{class_o_b_d_parser_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_o_b_d_parser_a83c4a1e5f8a1d3eb5258279bff29c56a}\index{OBDParser@{OBDParser}!filename\_@{filename\_}}
+\index{filename\_@{filename\_}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{filename\_}{filename\_}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a83c4a1e5f8a1d3eb5258279bff29c56a} 
+std::\+string OBDParser::\+filename\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\Hypertarget{class_o_b_d_parser_a5deaf2393e50fa1ef511bf761aecdb1b}\index{OBDParser@{OBDParser}!records\_@{records\_}}
+\index{records\_@{records\_}!OBDParser@{OBDParser}}
+\doxysubsubsection{\texorpdfstring{records\_}{records\_}}
+{\footnotesize\ttfamily \label{class_o_b_d_parser_a5deaf2393e50fa1ef511bf761aecdb1b} 
+std::\+vector$<$\doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}}$>$ OBDParser::\+records\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{obd__parser_8h}{obd\+\_\+parser.\+h}}\item 
+src/\+\doxymbox{\hyperlink{obd__parser_8cpp}{obd\+\_\+parser.\+cpp}}\end{DoxyCompactItemize}

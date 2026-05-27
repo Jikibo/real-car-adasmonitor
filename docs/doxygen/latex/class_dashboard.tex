@@ -1,0 +1,170 @@
+\doxysection{Dashboard Class Reference}
+\hypertarget{class_dashboard}{}\label{class_dashboard}\index{Dashboard@{Dashboard}}
+
+
+Приборная панель для отображения телеметрии автомобиля.  
+
+
+
+
+{\ttfamily \+\#include $<$dashboard.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_dashboard_a9380c3efe2dce7885acbfce871f31b60}{Dashboard}} ()=default
+\begin{DoxyCompactList}\small\item\em Конструктор по умолчанию. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_dashboard_ab4270228cf5c10aba097c60d58b61824}{draw}} (cv::\+\+Mat \&frame, float speed\+Kmh, float rpm, float coolant\+TempC, float fuel\+Percent, float throttle\+Percent, const std::\+string \&driving\+Style) const
+\begin{DoxyCompactList}\small\item\em Рисует приборную панель на указанном изображении. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_dashboard_ad93d739dbdc1ae537c6cc7a542453ad6}{draw\+Gauge}} (cv::\+\+Mat \&img, const cv::\+\+Point \&center, int radius, float value, float min\+Value, float max\+Value, float warning\+Threshold, const std::\+string \&title, const std::\+string \&unit, const cv::\+\+Scalar \&normal\+Color, const cv::\+\+Scalar \&warning\+Color) const
+\begin{DoxyCompactList}\small\item\em Рисует гауге (круговую шкалу). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_dashboard_ac8f3f4a3906d16a78e2749a722754cdc}{draw\+Linear\+Gauge}} (cv::\+\+Mat \&img, const cv::\+\+Rect \&area, float value, float min\+Value, float max\+Value, const std::\+string \&title, const std::\+string \&unit, const cv::\+\+Scalar \&fill\+Color) const
+\begin{DoxyCompactList}\small\item\em Рисует линейную шкалу. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static cv::\+\+Scalar \doxymbox{\hyperlink{class_dashboard_ab0ec8917483826490d669eec7486b15c}{style\+Color}} (const std::\+string \&driving\+Style)
+\begin{DoxyCompactList}\small\item\em Возвращает цвет в зависимости от стиля вождения. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Приборная панель для отображения телеметрии автомобиля. 
+
+Класс \doxylink{class_dashboard}{Dashboard} отвечает за рисование приборной панели с данными о скорости, оборотах и т.\+д. 
+
+\label{class_dashboard_doc-constructors}
+\Hypertarget{class_dashboard_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_dashboard_a9380c3efe2dce7885acbfce871f31b60}\index{Dashboard@{Dashboard}!Dashboard@{Dashboard}}
+\index{Dashboard@{Dashboard}!Dashboard@{Dashboard}}
+\doxysubsubsection{\texorpdfstring{Dashboard()}{Dashboard()}}
+{\footnotesize\ttfamily \label{class_dashboard_a9380c3efe2dce7885acbfce871f31b60} 
+Dashboard::\+\+Dashboard (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Конструктор по умолчанию. 
+
+
+
+\label{class_dashboard_doc-func-members}
+\Hypertarget{class_dashboard_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_dashboard_ab4270228cf5c10aba097c60d58b61824}\index{Dashboard@{Dashboard}!draw@{draw}}
+\index{draw@{draw}!Dashboard@{Dashboard}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_dashboard_ab4270228cf5c10aba097c60d58b61824} 
+void Dashboard::\+draw (\begin{DoxyParamCaption}\item[{cv::\+\+Mat \&}]{frame}{, }\item[{float}]{speed\+Kmh}{, }\item[{float}]{rpm}{, }\item[{float}]{coolant\+TempC}{, }\item[{float}]{fuel\+Percent}{, }\item[{float}]{throttle\+Percent}{, }\item[{const std::\+string \&}]{driving\+Style}{}\end{DoxyParamCaption}) const}
+
+
+
+Рисует приборную панель на указанном изображении. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Изображение для отрисовки. \\
+\hline
+{\em speed\+Kmh} & Скорость автомобиля (km/\+h). \\
+\hline
+{\em rpm} & Обороты двигателя. \\
+\hline
+{\em coolant\+TempC} & Температура охлаждающей жидкости. \\
+\hline
+{\em fuel\+Percent} & Уровень топлива. \\
+\hline
+{\em throttle\+Percent} & Положение дроссельной заслонки. \\
+\hline
+{\em driving\+Style} & Стиль вождения (SLOW, NORMAL, AGGRESSIVE). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_dashboard_ad93d739dbdc1ae537c6cc7a542453ad6}\index{Dashboard@{Dashboard}!drawGauge@{drawGauge}}
+\index{drawGauge@{drawGauge}!Dashboard@{Dashboard}}
+\doxysubsubsection{\texorpdfstring{drawGauge()}{drawGauge()}}
+{\footnotesize\ttfamily \label{class_dashboard_ad93d739dbdc1ae537c6cc7a542453ad6} 
+void Dashboard::\+draw\+Gauge (\begin{DoxyParamCaption}\item[{cv::\+\+Mat \&}]{img}{, }\item[{const cv::\+\+Point \&}]{center}{, }\item[{int}]{radius}{, }\item[{float}]{value}{, }\item[{float}]{min\+Value}{, }\item[{float}]{max\+Value}{, }\item[{float}]{warning\+Threshold}{, }\item[{const std::\+string \&}]{title}{, }\item[{const std::\+string \&}]{unit}{, }\item[{const cv::\+\+Scalar \&}]{normal\+Color}{, }\item[{const cv::\+\+Scalar \&}]{warning\+Color}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Рисует гауге (круговую шкалу). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & Изображение для рисования. \\
+\hline
+{\em center} & Центр гауге. \\
+\hline
+{\em radius} & Радиус. \\
+\hline
+{\em value} & Значение на шкале. \\
+\hline
+{\em min\+Value} & Минимальное значение. \\
+\hline
+{\em max\+Value} & Максимальное значение. \\
+\hline
+{\em warning\+Threshold} & Порог предупреждения. \\
+\hline
+{\em title} & Название шкалы. \\
+\hline
+{\em unit} & Единица измерения. \\
+\hline
+{\em normal\+Color} & Цвет для нормального значения. \\
+\hline
+{\em warning\+Color} & Цвет для предупреждающего значения. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_dashboard_ac8f3f4a3906d16a78e2749a722754cdc}\index{Dashboard@{Dashboard}!drawLinearGauge@{drawLinearGauge}}
+\index{drawLinearGauge@{drawLinearGauge}!Dashboard@{Dashboard}}
+\doxysubsubsection{\texorpdfstring{drawLinearGauge()}{drawLinearGauge()}}
+{\footnotesize\ttfamily \label{class_dashboard_ac8f3f4a3906d16a78e2749a722754cdc} 
+void Dashboard::\+draw\+Linear\+Gauge (\begin{DoxyParamCaption}\item[{cv::\+\+Mat \&}]{img}{, }\item[{const cv::\+\+Rect \&}]{area}{, }\item[{float}]{value}{, }\item[{float}]{min\+Value}{, }\item[{float}]{max\+Value}{, }\item[{const std::\+string \&}]{title}{, }\item[{const std::\+string \&}]{unit}{, }\item[{const cv::\+\+Scalar \&}]{fill\+Color}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Рисует линейную шкалу. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & Изображение для рисования. \\
+\hline
+{\em area} & Прямоугольная область. \\
+\hline
+{\em value} & Значение на шкале. \\
+\hline
+{\em min\+Value} & Минимальное значение. \\
+\hline
+{\em max\+Value} & Максимальное значение. \\
+\hline
+{\em title} & Название шкалы. \\
+\hline
+{\em unit} & Единица измерения. \\
+\hline
+{\em fill\+Color} & Цвет заполнения. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_dashboard_ab0ec8917483826490d669eec7486b15c}\index{Dashboard@{Dashboard}!styleColor@{styleColor}}
+\index{styleColor@{styleColor}!Dashboard@{Dashboard}}
+\doxysubsubsection{\texorpdfstring{styleColor()}{styleColor()}}
+{\footnotesize\ttfamily \label{class_dashboard_ab0ec8917483826490d669eec7486b15c} 
+cv::\+\+Scalar Dashboard::\+style\+Color (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{driving\+Style}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Возвращает цвет в зависимости от стиля вождения. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em driving\+Style} & Стиль вождения (SLOW, NORMAL, AGGRESSIVE). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Цвет для отображения. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{dashboard_8h}{dashboard.\+h}}\item 
+src/\+\doxymbox{\hyperlink{dashboard_8cpp}{dashboard.\+cpp}}\end{DoxyCompactItemize}

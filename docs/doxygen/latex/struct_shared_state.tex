@@ -1,0 +1,105 @@
+\doxysection{Shared\+State Struct Reference}
+\hypertarget{struct_shared_state}{}\label{struct_shared_state}\index{SharedState@{SharedState}}
+
+
+Разделяемое состояние между потоками.  
+
+
+
+
+{\ttfamily \+\#include $<$shared\+\_\+state.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_shared_state_a5bba956826f95cad60a04f36a62d5a95}{Shared\+State}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} \doxymbox{\hyperlink{struct_shared_state_af156adf052094f5af4dbaf9dfeb34e5d}{current\+\_\+record}}
+\begin{DoxyCompactList}\small\item\em Текущая запись телеметрии из OBD. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{struct_classification_result}{Classification\+Result}} \doxymbox{\hyperlink{struct_shared_state_a92a3f849ce8d030b51dd1e63cd35a644}{classification\+\_\+result}}
+\begin{DoxyCompactList}\small\item\em Результат классификации стиля вождения. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{struct_shared_state_a1de6d4150578a3eeea779993f6f3f1e1}{alert\+\_\+count}} = 0
+\begin{DoxyCompactList}\small\item\em Счётчик алертов. \end{DoxyCompactList}\item 
+std::\+atomic$<$ bool $>$ \doxymbox{\hyperlink{struct_shared_state_a4b35795e7152b4a932bdd6a3090840f0}{running}} \{true\}
+\begin{DoxyCompactList}\small\item\em Флаг выполнения программы. \end{DoxyCompactList}\item 
+std::\+mutex \doxymbox{\hyperlink{struct_shared_state_a5cae91298dde2facf1e9a3a5acaf808c}{mtx}}
+\begin{DoxyCompactList}\small\item\em Мьютекс для синхронизации доступа к данным. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Разделяемое состояние между потоками. 
+
+Класс \doxylink{struct_shared_state}{Shared\+State} содержит данные, которые используются в нескольких потоках. 
+
+\label{struct_shared_state_doc-constructors}
+\Hypertarget{struct_shared_state_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_shared_state_a5bba956826f95cad60a04f36a62d5a95}\index{SharedState@{SharedState}!SharedState@{SharedState}}
+\index{SharedState@{SharedState}!SharedState@{SharedState}}
+\doxysubsubsection{\texorpdfstring{SharedState()}{SharedState()}}
+{\footnotesize\ttfamily \label{struct_shared_state_a5bba956826f95cad60a04f36a62d5a95} 
+Shared\+State::\+\+Shared\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\label{struct_shared_state_doc-variable-members}
+\Hypertarget{struct_shared_state_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_shared_state_a1de6d4150578a3eeea779993f6f3f1e1}\index{SharedState@{SharedState}!alert\_count@{alert\_count}}
+\index{alert\_count@{alert\_count}!SharedState@{SharedState}}
+\doxysubsubsection{\texorpdfstring{alert\_count}{alert\_count}}
+{\footnotesize\ttfamily \label{struct_shared_state_a1de6d4150578a3eeea779993f6f3f1e1} 
+int Shared\+State::\+alert\+\_\+count = 0}
+
+
+
+Счётчик алертов. 
+
+\Hypertarget{struct_shared_state_a92a3f849ce8d030b51dd1e63cd35a644}\index{SharedState@{SharedState}!classification\_result@{classification\_result}}
+\index{classification\_result@{classification\_result}!SharedState@{SharedState}}
+\doxysubsubsection{\texorpdfstring{classification\_result}{classification\_result}}
+{\footnotesize\ttfamily \label{struct_shared_state_a92a3f849ce8d030b51dd1e63cd35a644} 
+\doxymbox{\hyperlink{struct_classification_result}{Classification\+Result}} Shared\+State::\+classification\+\_\+result}
+
+
+
+Результат классификации стиля вождения. 
+
+\Hypertarget{struct_shared_state_af156adf052094f5af4dbaf9dfeb34e5d}\index{SharedState@{SharedState}!current\_record@{current\_record}}
+\index{current\_record@{current\_record}!SharedState@{SharedState}}
+\doxysubsubsection{\texorpdfstring{current\_record}{current\_record}}
+{\footnotesize\ttfamily \label{struct_shared_state_af156adf052094f5af4dbaf9dfeb34e5d} 
+\doxymbox{\hyperlink{struct_o_b_d_record}{OBDRecord}} Shared\+State::\+current\+\_\+record}
+
+
+
+Текущая запись телеметрии из OBD. 
+
+\Hypertarget{struct_shared_state_a5cae91298dde2facf1e9a3a5acaf808c}\index{SharedState@{SharedState}!mtx@{mtx}}
+\index{mtx@{mtx}!SharedState@{SharedState}}
+\doxysubsubsection{\texorpdfstring{mtx}{mtx}}
+{\footnotesize\ttfamily \label{struct_shared_state_a5cae91298dde2facf1e9a3a5acaf808c} 
+std::\+mutex Shared\+State::\+mtx\hspace{0.3cm}{\ttfamily [mutable]}}
+
+
+
+Мьютекс для синхронизации доступа к данным. 
+
+\Hypertarget{struct_shared_state_a4b35795e7152b4a932bdd6a3090840f0}\index{SharedState@{SharedState}!running@{running}}
+\index{running@{running}!SharedState@{SharedState}}
+\doxysubsubsection{\texorpdfstring{running}{running}}
+{\footnotesize\ttfamily \label{struct_shared_state_a4b35795e7152b4a932bdd6a3090840f0} 
+std::\+atomic$<$bool$>$ Shared\+State::\+running \{true\}}
+
+
+
+Флаг выполнения программы. 
+
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+src/\+\doxymbox{\hyperlink{shared__state_8h}{shared\+\_\+state.\+h}}\end{DoxyCompactItemize}
